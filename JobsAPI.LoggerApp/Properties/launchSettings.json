@@ -24,8 +24,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "CLOUDWATCH_ACCESSKEY": "AKIASDR2LRMI74C4BWRZ",
-        "CLOUDWATCH_SECRET": "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",
-        "CLOUDWATCH_AWSREGION": "us-east-1",
+        "CLOUDWATCH_SECRET": "",
+        "CLOUDWATCH_AWSREGION": "",
         "CLOUDWATCH_LOGGROUP": "/jobsapi/loggerapp/"
       }
     }
