@@ -26,8 +26,8 @@
         "REDIS_HOST": "localhost",
         "REDIS_PORT": "6379",
         "REDIS_PASS": "password",
-        "SQS_ACCESSKEY": "AKIASDR2LRMI7NW7KVCV",
-        "SQS_SECRET": "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",
+        "SQS_ACCESSKEY": "",
+        "SQS_SECRET": "",
         "SQS_LOGGER_URL": "https://sqs.us-east-1.amazonaws.com/145077537553/jobsapi-logger"
       }
     }
