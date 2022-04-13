@@ -3,6 +3,7 @@ using JobsApi.AuthedGateway.Exceptions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace JobsApi.AuthedGateway.Utils
 {
@@ -20,6 +21,7 @@ namespace JobsApi.AuthedGateway.Utils
                         .Error;
                     var errorCode = GetErrorCode(exception);
                     context.Response.StatusCode = 200;
+
                     await context.Response.WriteAsJsonAsync(ResponseHandler.WrapFailure<object>(errorCode));
                 });
             });

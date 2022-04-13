@@ -52,6 +52,8 @@ namespace JobsApi.AuthedGateway
             services.AddRedisCacheService();
             services.AddSingleton<PlayerAccessTokenUtility>();
             services.AddSingleton<AccessTokenCache>();
+            services.AddMessageQueueClient();
+            services.AddScoped<LoggingQueueUtility>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

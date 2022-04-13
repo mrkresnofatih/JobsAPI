@@ -57,7 +57,7 @@ namespace JobsApi.AuthedGateway.Templates
             }
             catch (Exception)
             {
-                throw new RecordNotFoundException();
+                throw new InvalidCredException();
             }
         }
     }
