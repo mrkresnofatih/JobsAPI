@@ -16,19 +16,24 @@ namespace JobsApi.AuthedGateway.Utils
             return sqsSecret;
         }
 
-        public async Task QueueErrorLog(string applicationName, string spanId, 
+        protected override string GetApplicationName()
+        {
+            return "AuthedGateway";
+        }
+
+        public async Task QueueErrorLog(string spanId, 
             string exceptionClass, string stackTrace)
         {
             var packet = LogRequestBuilder
-                .BuildErrorLogRequest(applicationName, spanId, exceptionClass, stackTrace);
+                .BuildErrorLogRequest(GetApplicationName(), spanId, exceptionClass, stackTrace);
             await PushMessageToQueue(packet);
         }
         
-        public async Task QueueInfoLog(string applicationName, string spanId, 
+        public async Task QueueInfoLog(string spanId, 
             string message)
         {
             var packet = LogRequestBuilder
-                .BuildInfoLogRequest(applicationName, spanId, message);
+                .BuildInfoLogRequest(GetApplicationName(), spanId, message);
             await PushMessageToQueue(packet);
         }
     }

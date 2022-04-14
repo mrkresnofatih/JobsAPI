@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JobsApi.AuthedGateway.Attributes;
+using JobsApi.AuthedGateway.Constants;
 using JobsApi.AuthedGateway.Controllers.Interfaces;
 using JobsApi.AuthedGateway.Models;
 using JobsApi.AuthedGateway.Services;
@@ -30,8 +31,7 @@ namespace JobsApi.AuthedGateway.Controllers
             var tasks = new List<Task>
             {
                 _loggingQueueUtility
-                    .QueueInfoLog("authedGateway",
-                        DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString(),
+                    .QueueInfoLog(DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString(),
                         "signup request hit!"),
                 _authService.Signup(player)
             };
@@ -51,9 +51,9 @@ namespace JobsApi.AuthedGateway.Controllers
         [HttpGet("test")]
         [TypeFilter(typeof(RequireAuthFilterAttribute))]
         [TypeFilter(typeof(ExceptionLoggingQueueFilterAttribute))]
-        public ResponsePayload<string> GetString()
+        public ResponsePayload<string> GetString([FromHeader(Name = CustomHeaders.SpanIdHeader)] string spanId)
         {
-            return ResponseHandler.WrapSuccess("data");
+            return ResponseHandler.WrapSuccess(spanId);
         }
     }
 }

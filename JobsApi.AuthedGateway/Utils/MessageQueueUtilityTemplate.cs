@@ -25,5 +25,7 @@ namespace JobsApi.AuthedGateway.Utils
         }
 
         protected abstract string GetQueueUrl();
+
+        protected abstract string GetApplicationName();
     }
 }

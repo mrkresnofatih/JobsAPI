@@ -2,24 +2,39 @@
 
 namespace JobsApi.JobsCore.Utils
 {
-    public class RecordNotFoundException : Exception
+    public class RecordNotFoundException : BaseAppException
     {
-        public RecordNotFoundException() : base(ErrorCodes.RecordNotFound)
+        public RecordNotFoundException(string spanId) : base(ErrorCodes.RecordNotFound, spanId)
         {
         }
     }
     
-    public class UsernameTakenException : Exception
+    public class UsernameTakenException : BaseAppException
     {
-        public UsernameTakenException() : base(ErrorCodes.UsernameTaken)
+        public UsernameTakenException(string spanId) : base(ErrorCodes.UsernameTaken, spanId)
         {
         }
     }
     
-    public class InvalidCredException : Exception
+    public class InvalidCredException : BaseAppException
     {
-        public InvalidCredException() : base(ErrorCodes.InvalidCredentials)
+        public InvalidCredException(string spanId) : base(ErrorCodes.InvalidCredentials, spanId)
         {
+        }
+    }
+    
+    public class BaseAppException : Exception
+    {
+        public BaseAppException(string errorCode, string spanId) : base(errorCode)
+        {
+            _spanId = spanId;
+        }
+
+        private readonly  string _spanId;
+
+        public string GetSpanId()
+        {
+            return _spanId;
         }
     }
 

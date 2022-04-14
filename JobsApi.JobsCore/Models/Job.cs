@@ -29,4 +29,20 @@ namespace JobsApi.JobsCore.Models
         [Required]
         public string Username { get; set; }
     }
+
+    public class JobGetDto
+    {
+        [StringLength(20)]
+        [Required]
+        public string Username { get; set; }
+        
+        public string JobId { get; set; }
+    }
+
+    public class JobListGetDto
+    {
+        [StringLength(20)]
+        [Required]
+        public string Username { get; set; }
+    }
 }

@@ -2,9 +2,9 @@
 
 namespace JobsApi.AuthedGateway.Exceptions
 {
-    public class InvalidCredException : Exception
+    public class InvalidCredException : BaseAppException
     {
-        public InvalidCredException() : base(ErrorCodes.InvalidCredentials)
+        public InvalidCredException(string spanId) : base(ErrorCodes.InvalidCredentials, spanId)
         {
         }
     }

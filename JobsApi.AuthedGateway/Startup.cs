@@ -8,6 +8,7 @@ using JobsApi.AuthedGateway.Services;
 using JobsApi.AuthedGateway.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -46,6 +47,7 @@ namespace JobsApi.AuthedGateway
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "JobsApi.AuthedGateway", Version = "v1" });
             });
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutomapperConfig();
             services.AddScoped<AuthService>();
             services.AddSingleton<PlayerCacheRepo>();
@@ -54,6 +56,7 @@ namespace JobsApi.AuthedGateway
             services.AddSingleton<AccessTokenCache>();
             services.AddMessageQueueClient();
             services.AddScoped<LoggingQueueUtility>();
+            services.AddTransient<AttachSpanIdMiddleware>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +68,8 @@ namespace JobsApi.AuthedGateway
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "JobsApi.AuthedGateway v1"));
             }
+
+            app.UseMiddleware<AttachSpanIdMiddleware>();
             
             app.UseAppExceptionHandler();
 

@@ -19,8 +19,9 @@ namespace JobsApi.JobsCore.Services
         private readonly IMapper _mapper;
         private readonly JobListCacheRepo _jobListCacheRepo;
 
-        public async Task<Job> SaveUserJob(JobCreateDto jobCreateDto)
+        public async Task<Job> SaveUserJob(TraceableQueuePayload<JobCreateDto> jobCreateDtoTraceableQueuePayload)
         {
+            var jobCreateDto = jobCreateDtoTraceableQueuePayload.Data;
             var newJob = _mapper.Map<Job>(jobCreateDto);
             newJob.JobId = ShortIdGenerator.GenerateId();
             newJob.CreatedAt = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
@@ -46,24 +47,33 @@ namespace JobsApi.JobsCore.Services
             return newJob;
         }
 
-        public async Task<Job> GetUserJobById(string username, string jobId)
+        public async Task<Job> GetUserJobById(TraceableQueuePayload<JobGetDto> 
+            jobGetDtoTraceableQueuePayload)
         {
+            var spanId = jobGetDtoTraceableQueuePayload.SpanId;
+            var payload = jobGetDtoTraceableQueuePayload.Data;
+            var jobId = payload.JobId;
+            var username = payload.Username;
+            
             var foundJobList = await _jobListCacheRepo
                 .GetByUsername(username);
             if (foundJobList == null)
             {
-                throw new RecordNotFoundException();
+                throw new RecordNotFoundException(spanId);
             }
             var foundJob = foundJobList[jobId];
             if (foundJob == null)
             {
-                throw new RecordNotFoundException();
+                throw new RecordNotFoundException(spanId);
             }
             return foundJob;
         }
 
-        public async Task<Dictionary<string, Job>> GetUserJobsList(string username)
+        public async Task<Dictionary<string, Job>> GetUserJobsList(TraceableQueuePayload<JobListGetDto> 
+            jobListGetDtoTraceableQueuePayload)
         {
+            var username = jobListGetDtoTraceableQueuePayload.Data.Username;
+
             var foundJobList = await _jobListCacheRepo
                 .GetByUsername(username);
             

@@ -1,15 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using JobsApi.JobsCore.Models;
+using JobsApi.JobsCore.Utils;
 
 namespace JobsApi.JobsCore.Services
 {
     public interface IJobService
     {
-        Task<Job> SaveUserJob(JobCreateDto jobCreateDto);
+        Task<Job> SaveUserJob(TraceableQueuePayload<JobCreateDto> 
+            jobCreateDtoTraceableQueuePayload);
 
-        Task<Job> GetUserJobById(string username, string jobId);
+        Task<Job> GetUserJobById(TraceableQueuePayload<JobGetDto> 
+            jobGetDtoTraceableQueuePayload);
 
-        Task<Dictionary<string, Job>> GetUserJobsList(string username);
+        Task<Dictionary<string, Job>> GetUserJobsList(TraceableQueuePayload<JobListGetDto> 
+            jobListGetDtoTraceableQueuePayload);
     }
 }

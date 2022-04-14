@@ -2,9 +2,9 @@
 
 namespace JobsApi.AuthedGateway.Exceptions
 {
-    public class RecordNotFoundException : Exception
+    public class RecordNotFoundException : BaseAppException
     {
-        public RecordNotFoundException() : base(ErrorCodes.RecordNotFound)
+        public RecordNotFoundException(string spanId) : base(ErrorCodes.RecordNotFound, spanId)
         {
         }
     }

@@ -2,9 +2,9 @@
 
 namespace JobsApi.AuthedGateway.Exceptions
 {
-    public class UsernameTakenException : Exception
+    public class UsernameTakenException : BaseAppException
     {
-        public UsernameTakenException() : base(ErrorCodes.UsernameTaken)
+        public UsernameTakenException(string spanId) : base(ErrorCodes.UsernameTaken, spanId)
         {
         }
     }

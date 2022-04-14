@@ -10,25 +10,30 @@ public class LoggingQueueUtility : MessageQueueUtilityTemplate
         {
         }
 
+        protected override string GetApplicationName()
+        {
+            return "JobsCore";
+        }
+
         protected override string GetQueueUrl()
         {
             var sqsSecret = Environment.GetEnvironmentVariable("SQS_LOGGER_URL");
             return sqsSecret;
         }
 
-        public async Task QueueErrorLog(string applicationName, string spanId, 
+        public async Task QueueErrorLog(string spanId, 
             string exceptionClass, string stackTrace)
         {
             var packet = LogRequestBuilder
-                .BuildErrorLogRequest(applicationName, spanId, exceptionClass, stackTrace);
+                .BuildErrorLogRequest(GetApplicationName(), spanId, exceptionClass, stackTrace);
             await PushMessageToQueue(packet);
         }
         
-        public async Task QueueInfoLog(string applicationName, string spanId, 
+        public async Task QueueInfoLog(string spanId, 
             string message)
         {
             var packet = LogRequestBuilder
-                .BuildInfoLogRequest(applicationName, spanId, message);
+                .BuildInfoLogRequest(GetApplicationName(), spanId, message);
             await PushMessageToQueue(packet);
         }
     }

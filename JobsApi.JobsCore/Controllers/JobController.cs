@@ -9,6 +9,7 @@ namespace JobsApi.JobsCore.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [TypeFilter(typeof(ExceptionLoggingQueueFilterAttribute))]
     public class JobController : IJobController
     {
         public JobController(JobService jobService)
@@ -19,24 +20,25 @@ namespace JobsApi.JobsCore.Controllers
         private readonly JobService _jobService;
 
         [HttpPost("save")]
-        public async Task<ResponsePayload<Job>> SaveUserJob([FromBody] JobCreateDto jobCreateDto)
+        public async Task<ResponsePayload<Job>> SaveUserJob([FromBody] TraceableQueuePayload<JobCreateDto> jobCreateDtoTraceableQueuePayload)
         {
-            var res = await _jobService.SaveUserJob(jobCreateDto);
+            var res = await _jobService.SaveUserJob(jobCreateDtoTraceableQueuePayload);
             return ResponseHandler.WrapSuccess(res);
         }
 
-        [HttpGet("get/{username}/{jobId}")]
-        [TypeFilter(typeof(ExceptionLoggingQueueFilterAttribute))]
-        public async Task<ResponsePayload<Job>> GetUserJobByJobId(string username, string jobId)
+        [HttpPost("get")]
+        public async Task<ResponsePayload<Job>> GetUserJobByJobId([FromBody] TraceableQueuePayload<JobGetDto> 
+            jobGetDtoTraceableQueuePayload)
         {
-            var res = await _jobService.GetUserJobById(username, jobId);
+            var res = await _jobService.GetUserJobById(jobGetDtoTraceableQueuePayload);
             return ResponseHandler.WrapSuccess(res);
         }
 
-        [HttpGet("getAll/{username}")]
-        public async Task<ResponsePayload<Dictionary<string, Job>>> GetUserJobList(string username)
+        [HttpPost("getAll")]
+        public async Task<ResponsePayload<Dictionary<string, Job>>> GetUserJobList([FromBody] TraceableQueuePayload<JobListGetDto> 
+            jobListGetDtoTraceableQueuePayload)
         {
-            var res = await _jobService.GetUserJobsList(username);
+            var res = await _jobService.GetUserJobsList(jobListGetDtoTraceableQueuePayload);
             return ResponseHandler.WrapSuccess(res);
         }
     }

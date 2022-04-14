@@ -1,15 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using JobsApi.AuthedGateway.Constants;
 using JobsApi.AuthedGateway.Exceptions;
 using JWT;
 using JWT.Algorithms;
 using JWT.Builder;
 using JWT.Serializers;
+using Microsoft.AspNetCore.Http;
 
 namespace JobsApi.AuthedGateway.Templates
 {
     public abstract class JwtTemplate
     {
+        private readonly IHttpContextAccessor _httpContextAccessor = new HttpContextAccessor();
+        
+        private string GetSpanId()
+        {
+            var spanIdFromHeader = _httpContextAccessor.HttpContext
+                .Request
+                .Headers[CustomHeaders.SpanIdHeader]
+                .ToString();
+            return spanIdFromHeader;
+        }
+        
         protected abstract string GetSecret();
         
         private static IJwtAlgorithm GetAlgorithm()
@@ -57,7 +70,7 @@ namespace JobsApi.AuthedGateway.Templates
             }
             catch (Exception)
             {
-                throw new InvalidCredException();
+                throw new InvalidCredException(GetSpanId());
             }
         }
     }

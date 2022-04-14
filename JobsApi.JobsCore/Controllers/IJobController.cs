@@ -7,10 +7,12 @@ namespace JobsApi.JobsCore.Controllers
 {
     public interface IJobController
     {
-        Task<ResponsePayload<Job>> SaveUserJob(JobCreateDto jobCreateDto);
+        Task<ResponsePayload<Job>> SaveUserJob(TraceableQueuePayload<JobCreateDto> jobCreateDtoTraceableQueuePayload);
 
-        Task<ResponsePayload<Job>> GetUserJobByJobId(string username, string jobId);
+        Task<ResponsePayload<Job>> GetUserJobByJobId(TraceableQueuePayload<JobGetDto> 
+            jobGetDtoTraceableQueuePayload);
 
-        Task<ResponsePayload<Dictionary<string, Job>>> GetUserJobList(string username);
+        Task<ResponsePayload<Dictionary<string, Job>>> GetUserJobList(TraceableQueuePayload<JobListGetDto> 
+            jobListGetDtoTraceableQueuePayload);
     }
 }

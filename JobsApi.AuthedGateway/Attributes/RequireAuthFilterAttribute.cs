@@ -27,9 +27,15 @@ namespace JobsApi.AuthedGateway.Attributes
                 .Request
                 .Headers
                 .ContainsKey(CustomHeaders.AuthHeader);
+            
+            var spanIdHeader = context
+                .HttpContext
+                .Request
+                .Headers[CustomHeaders.SpanIdHeader];
+            
             if (!authHeaderExists)
             {
-                throw new InvalidCredException();
+                throw new InvalidCredException(spanIdHeader);
             }
 
             var token = context.HttpContext.Request.Headers[CustomHeaders.AuthHeader];
@@ -37,14 +43,14 @@ namespace JobsApi.AuthedGateway.Attributes
 
             if (!isTokenValid)
             {
-                throw new InvalidCredException();
+                throw new InvalidCredException(spanIdHeader);
             }
 
             var usernameFromToken = _playerAccessTokenUtility.GetUsernameFromToken(token);
             var tokenFromRedis = await _accessTokenCache.GetByUsername(usernameFromToken);
             if (tokenFromRedis == null)
             {
-                throw new InvalidCredException();
+                throw new InvalidCredException(spanIdHeader);
             }
 
             var extendTokenLifeTask = _accessTokenCache.SaveByUsername(usernameFromToken, token);

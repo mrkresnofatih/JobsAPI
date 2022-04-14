@@ -16,9 +16,12 @@ namespace JobsApi.JobsCore.Utils
         public override async Task OnExceptionAsync(ExceptionContext context)
         {
             var exception = context.Exception;
+            var spanId = ((BaseAppException) context.Exception).GetSpanId();
+            var exceptionType = exception.GetType().FullName;
+            var stackTrace = exception.StackTrace;
 
-            await _loggingQueueUtility.QueueErrorLog("jobsCore", DateTime.Now.ToString(),
-                exception.GetType().FullName, exception.StackTrace);
+            await _loggingQueueUtility
+                .QueueErrorLog(spanId, exceptionType, stackTrace);
         }
     }
 }
