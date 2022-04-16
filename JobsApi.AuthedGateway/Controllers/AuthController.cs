@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using JobsApi.AuthedGateway.Attributes;
 using JobsApi.AuthedGateway.Constants;
 using JobsApi.AuthedGateway.Controllers.Interfaces;
@@ -15,28 +13,18 @@ namespace JobsApi.AuthedGateway.Controllers
     [Route("[controller]")]
     public class AuthController : IAuthController
     {
-        public AuthController(AuthService authService, LoggingQueueUtility loggingQueueUtility)
+        public AuthController(AuthService authService)
         {
             _authService = authService;
-            _loggingQueueUtility = loggingQueueUtility;
         }
 
-        private readonly LoggingQueueUtility _loggingQueueUtility;
         private readonly AuthService _authService;
 
         [HttpPost("signup")]
         [TypeFilter(typeof(ExceptionLoggingQueueFilterAttribute))]
         public async Task<ResponsePayload<PlayerGetDto>> Signup(Player player)
         {
-            var tasks = new List<Task>
-            {
-                _loggingQueueUtility
-                    .QueueInfoLog(DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString(),
-                        "signup request hit!"),
-                _authService.Signup(player)
-            };
-            await Task.WhenAll(tasks.ToArray());
-            var res = ((Task<PlayerGetDto>)tasks[1]).Result;
+            var res = await _authService.Signup(player);
             return ResponseHandler.WrapSuccess(res);
         }
 

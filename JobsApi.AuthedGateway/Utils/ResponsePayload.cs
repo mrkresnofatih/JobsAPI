@@ -18,6 +18,14 @@
                 ErrorCode = errorCode
             };
         }
+
+        public static ResponsePayload<string> AsynchronousReturn()
+        {
+            return new ResponsePayload<string>
+            {
+                Data = "Request Has Been Sent"
+            };
+        }
     }
 
     public class ResponsePayload<T>

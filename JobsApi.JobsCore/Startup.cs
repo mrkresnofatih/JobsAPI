@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JobsApi.JobsCore.Listeners;
 using JobsApi.JobsCore.Repositories;
 using JobsApi.JobsCore.Services;
 using JobsApi.JobsCore.Utils;
@@ -38,9 +39,12 @@ namespace JobsApi.JobsCore
             services.AddAutomapperConfig();
             services.AddRedisCacheService();
             services.AddSingleton<JobListCacheRepo>();
-            services.AddScoped<JobService>();
+            services.AddSingleton<JobService>();
             services.AddMessageQueueClient();
+            services.AddPusherAsExternalSockets();
+            services.AddSingleton<SocketUtility>();
             services.AddScoped<LoggingQueueUtility>();
+            services.AddHostedService<JobsRequestQueueListener>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

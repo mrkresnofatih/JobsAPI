@@ -31,7 +31,7 @@ namespace JobsApi.AuthedGateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddAppCors();
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
                 {
@@ -56,6 +56,7 @@ namespace JobsApi.AuthedGateway
             services.AddSingleton<AccessTokenCache>();
             services.AddMessageQueueClient();
             services.AddScoped<LoggingQueueUtility>();
+            services.AddScoped<JobsCoreQueueUtility>();
             services.AddTransient<AttachSpanIdMiddleware>();
         }
 
@@ -73,9 +74,11 @@ namespace JobsApi.AuthedGateway
             
             app.UseAppExceptionHandler();
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JobsAPI.LoggerApp.Listeners;
 using JobsAPI.LoggerApp.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +34,8 @@ namespace JobsAPI.LoggerApp
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "JobsAPI.LoggerApp", Version = "v1" });
             });
+            services.AddMessageQueueClient();
+            services.AddHostedService<LoggingQueueListener>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

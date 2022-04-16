@@ -84,5 +84,29 @@ namespace JobsApi.JobsCore.Services
 
             return foundJobList;
         }
+
+        public async Task DeleteUserJobById(TraceableQueuePayload<JobGetDto> jobGetDtoTraceableQueuePayload)
+        {
+            var username = jobGetDtoTraceableQueuePayload.Data.Username;
+            var spanId = jobGetDtoTraceableQueuePayload.SpanId;
+            var foundJobList = await _jobListCacheRepo
+                .GetByUsername(username);
+
+            if (foundJobList == null)
+            {
+                throw new RecordNotFoundException(spanId);
+            }
+
+            var jobId = jobGetDtoTraceableQueuePayload.Data.JobId;
+            var foundJob = foundJobList[jobId];
+            
+            if (foundJob == null)
+            {
+                throw new RecordNotFoundException(spanId);
+            }
+
+            foundJobList.Remove(jobId);
+            await _jobListCacheRepo.SaveByUsername(username, foundJobList);
+        }
     }
 }

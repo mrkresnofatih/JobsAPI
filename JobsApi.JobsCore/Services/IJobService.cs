@@ -15,5 +15,8 @@ namespace JobsApi.JobsCore.Services
 
         Task<Dictionary<string, Job>> GetUserJobsList(TraceableQueuePayload<JobListGetDto> 
             jobListGetDtoTraceableQueuePayload);
+
+        Task DeleteUserJobById(TraceableQueuePayload<JobGetDto>
+            jobGetDtoTraceableQueuePayload);
     }
 }

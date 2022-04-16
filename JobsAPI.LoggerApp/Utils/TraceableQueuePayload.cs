@@ -1,23 +1,20 @@
-﻿namespace JobsApi.AuthedGateway.Utils
+﻿namespace JobsAPI.LoggerApp.Utils
 {
     public class TraceableQueuePayload<T>
     {
         public T Data { get; set; }
         
         public string SpanId { get; set; }
-        
-        public string RequestAddress { get; set; }
     }
 
     public static class TraceableQueueBuilder
     {
-        public static TraceableQueuePayload<T> Build<T>(T data, string spanId, string requestAddress)
+        public static TraceableQueuePayload<T> Build<T>(T data, string spanId)
         {
             return new TraceableQueuePayload<T>
             {
                 Data = data,
-                SpanId = spanId,
-                RequestAddress = requestAddress
+                SpanId = spanId
             };
         }
     }

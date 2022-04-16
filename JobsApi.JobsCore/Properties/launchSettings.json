@@ -20,15 +20,20 @@
     "JobsApi.JobsCore": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:5001;http://localhost:3000",
+      "applicationUrl": "https://localhost:5002;http://localhost:7002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "REDIS_HOST": "localhost",
-        "REDIS_PORT": "6379",
-        "REDIS_PASS": "password",
+        "REDIS_HOST": "",
+        "REDIS_PORT": "",
+        "REDIS_PASS": "",
         "SQS_ACCESSKEY": "",
         "SQS_SECRET": "",
-        "SQS_LOGGER_URL": "https://sqs.us-east-1.amazonaws.com/145077537553/jobsapi-logger"
+        "SQS_JOBSCORE_URL": "",
+        "SQS_LOGGER_URL": "",
+        "PUSHER_APP_ID": "",
+        "PUSHER_KEY": "",
+        "PUSHER_SECRET": "",
+        "PUSHER_CLUSTER": ""
       }
     }
   }

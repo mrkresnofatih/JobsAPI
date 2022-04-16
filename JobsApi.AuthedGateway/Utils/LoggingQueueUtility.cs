@@ -16,7 +16,7 @@ namespace JobsApi.AuthedGateway.Utils
             return sqsSecret;
         }
 
-        protected override string GetApplicationName()
+        private string GetApplicationName()
         {
             return "AuthedGateway";
         }

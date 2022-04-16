@@ -1,0 +1,60 @@
+name: Dockerize the Application
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  buildapp-authedgateway:
+    name: Build Docker Image & Push
+    runs-on: ubuntu-latest
+    defaults: 
+      run: 
+        working-directory: JobsApi.AuthedGateway
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out code
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build & push Docker image
+        with:
+          image: ghcr.io/mrkresnofatih/jobsapi-authedgateway
+          registry: ghcr.io
+          tags: latest, v1.0.${{ github.run_number }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+  buildapp-jobscore:
+    name: Build Docker Image & Push
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: JobsApi.JobsCore
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out code
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build & push Docker image
+        with:
+          image: ghcr.io/mrkresnofatih/jobsapi-jobscore
+          registry: ghcr.io
+          tags: latest, v1.0.${{ github.run_number }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+  buildapp-loggerapp:
+    name: Build Docker Image & Push
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: JobsAPI.LoggerApp
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out code
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build & push Docker image
+        with:
+          image: ghcr.io/mrkresnofatih/jobsapi-loggerapp
+          registry: ghcr.io
+          tags: latest, v1.0.${{ github.run_number }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}

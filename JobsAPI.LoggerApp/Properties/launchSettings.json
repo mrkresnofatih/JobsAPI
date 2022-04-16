@@ -20,13 +20,16 @@
     "JobsAPI.LoggerApp": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "applicationUrl": "https://localhost:5003;http://localhost:7003",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "CLOUDWATCH_ACCESSKEY": "",
         "CLOUDWATCH_SECRET": "",
         "CLOUDWATCH_AWSREGION": "",
-        "CLOUDWATCH_LOGGROUP": "/jobsapi/loggerapp/"
+        "CLOUDWATCH_LOGGROUP": "",
+        "SQS_ACCESSKEY": "",
+        "SQS_SECRET": "",
+        "SQS_LOGGER_URL": ""
       }
     }
   }
