@@ -6,16 +6,15 @@ on:
 
 jobs:
   buildapp-authedgateway:
-    name: Build Docker Image & Push
+    name: Build JobsApi.AuthedGateway Docker Image & Push
     runs-on: ubuntu-latest
-    defaults: 
-      run: 
-        working-directory: JobsApi.AuthedGateway
     steps:
       - uses: actions/checkout@v2
         name: Check out code
       - uses: mr-smithers-excellent/docker-build-push@v5
-        name: Build & push Docker image
+        name: Build & Push JobsApi.AuthedGateway Docker Image
+        run: ls -R
+        working-directory: ./JobsApi.AuthedGateway
         with:
           image: ghcr.io/mrkresnofatih/jobsapi-authedgateway
           registry: ghcr.io
@@ -24,16 +23,15 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
   buildapp-jobscore:
-    name: Build Docker Image & Push
+    name: Build JobsApi.JobsCore Docker Image & Push
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: JobsApi.JobsCore
     steps:
       - uses: actions/checkout@v2
         name: Check out code
       - uses: mr-smithers-excellent/docker-build-push@v5
-        name: Build & push Docker image
+        name: Build & Push JobsApi.JobsCore Docker Image
+        run: ls -R
+        working-directory: ./JobsApi.JobsCore
         with:
           image: ghcr.io/mrkresnofatih/jobsapi-jobscore
           registry: ghcr.io
@@ -42,16 +40,15 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
   buildapp-loggerapp:
-    name: Build Docker Image & Push
+    name: Build JobsApi.LoggerApp Docker Image & Push
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: JobsAPI.LoggerApp
     steps:
       - uses: actions/checkout@v2
         name: Check out code
       - uses: mr-smithers-excellent/docker-build-push@v5
-        name: Build & push Docker image
+        name: Build & Push JobsAPI.LoggerApp Docker Image
+        run: ls -R
+        working-directory: ./JobsAPI.LoggerApp
         with:
           image: ghcr.io/mrkresnofatih/jobsapi-loggerapp
           registry: ghcr.io
