@@ -1,4 +1,5 @@
 ﻿using System;
+using Amazon;
 using Amazon.SQS;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,7 +16,9 @@ namespace JobsApi.AuthedGateway.Utils
         {
             var sqsAccessKey = Environment.GetEnvironmentVariable("SQS_ACCESSKEY");
             var sqsSecret = Environment.GetEnvironmentVariable("SQS_SECRET");
-            return new AmazonSQSClient(sqsAccessKey, sqsSecret);
+            var sqsRegion = Environment.GetEnvironmentVariable("SQS_REGION");
+            var awsRegionEndpoint = RegionEndpoint.GetBySystemName(sqsRegion);
+            return new AmazonSQSClient(sqsAccessKey, sqsSecret, awsRegionEndpoint);
         }
     }
 }

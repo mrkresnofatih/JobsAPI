@@ -1,2 +1,3 @@
 .idea
 aws-secrets.json
+docker-compose-with-secrets.yml
